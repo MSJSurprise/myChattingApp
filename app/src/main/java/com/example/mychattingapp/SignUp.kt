@@ -1,10 +1,13 @@
 package com.example.mychattingapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
 class SignUp : AppCompatActivity() {
@@ -19,6 +22,8 @@ class SignUp : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+
+        mAuth = FirebaseAuth.getInstance()
 
         edtName = findViewById(R.id.edt_name)
         edtEmail = findViewById(R.id.edt_email)
@@ -37,6 +42,19 @@ class SignUp : AppCompatActivity() {
 
     private fun signUp(email: String, password: String) {
         // logic for creating users
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // jump to home activity
+
+                    val intent = Intent(this@SignUp, MainActivity::class.java)
+                    startActivity(intent)
+
+                } else {
+                    // If sign in fails, display a message to the user
+                    Toast.makeText(this@SignUp, "Some error occurred", Toast.LENGTH_SHORT).show()
+                }
+            }
 
     }
 
