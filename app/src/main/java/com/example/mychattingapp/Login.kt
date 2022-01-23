@@ -53,6 +53,7 @@ class Login : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // jump to home activity
                     val intent = Intent(this@Login, MainActivity::class.java)
+                    finish()
                     startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user
